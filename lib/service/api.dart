@@ -10,26 +10,17 @@ class Api {
         "User-Agent": "Thunder Client (https://www.thunderclient.com)"
       };
   Future pesquisar(String pesquisa) async {
+    var response;
     try {
       var url = Uri.parse("http://veiculos.fipe.org.br/api/veiculos/$pesquisa");
-      print(url);
-      return await http.post(url, headers: headers);
+      response = await http.post(url, headers: headers);
     } catch (e) {
       print("AQUI NO ERRO: $e");
       return e;
     }
-    // var url = Uri.parse("http://veiculos.fipe.org.br/api/veiculos/" + pesquisa);
-    // return await http.post(url);
-    // if (response.statusCode == 200) {
-    //   // print(response);
-    //   // Map<String, dynamic> dados = jsonDecode(response.body);
-    //   // List videos = dados['items'].map<Video>((map) {
-    //   //   // return Video.fromJson(map);
-    //   // }).toList();
-    //   // return videos;
-    // } else {
-    //   print('erro');
-    //   return [];
-    // }
+    if (response.statusCode == 200) {
+      List dados = jsonDecode(response.body);
+      return dados;
+    }
   }
 }
